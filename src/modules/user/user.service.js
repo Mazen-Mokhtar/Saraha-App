@@ -46,3 +46,12 @@ export const getAllUser = async (req, res, next) => {
     const allUser = await User.find();
     return res.status(200).json({ success: true, allUser });
 }
+export const getProfileById = async (req, res, next) => {
+    const { id } = req.params;
+    if (!id)
+        return next(new Error(message.user.notFound, { cause: 404 }))
+    const user = await User.findById(id).select("userName");
+    if (!user)
+        return next(new Error(message.user.notFound, { cause: 404 }))
+    return res.status(200).json({ success: true, data: user })
+}

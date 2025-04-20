@@ -8,5 +8,6 @@ const router = Router();
 router.get("/profile", authorization, validation(schema.getProfile), asyncHandler(userServices.getProfile))
 router.patch("/update", authorization, validation(schema.updateProfile), asyncHandler(userServices.updateProfile))
 router.delete("/delete", authorization, validation(schema.getProfile), asyncHandler(userServices.deleteAccount))
-router.get("/getAllUser" , authorization , validation(schema.getProfile) , asyncHandler(userServices.getAllUser))
+router.get("/getAllUser", authorization, validation(schema.getProfile), asyncHandler(userServices.getAllUser))
+router.get("/getUser/:id", authorization, asyncHandler(userServices.getProfileById))
 export default router;

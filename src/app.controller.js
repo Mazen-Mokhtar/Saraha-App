@@ -4,9 +4,11 @@ import messageController from "./modules/message/message.controller.js";
 import userController from "./modules/user/user.controller.js";
 import { errorUrl } from "./utils/error/errorUrl.js";
 import { globelError } from "./utils/error/global-error.js";
+import cors from "cors"
 function bootstrap(app, express) {
     app.use(express.json());
     conctionDB();
+    app.use(cors("*"))
     app.use("/users", authController);
     app.use("/user" , userController);
     app.use("/message" , messageController);

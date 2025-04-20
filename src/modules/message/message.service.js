@@ -17,8 +17,8 @@ export const userMessages = async (req, res, next) => {
     const { data } = req;
     User.schema.set("toJSON", { virtuals: false });
     const allMessage = await Message.find({ $or: [{ senderId: data.userId, isDeleteSenderId: false }, { resverId: data.userId, isDeleteResverId: false }] })
-        .populate("senderId", "userName email -_id")
-        .populate("resverId", "userName email -_id").select("-createdAt -updatedAt -__v -_id -isDeleteSenderId -isDeleteResverId")
+        .populate("senderId", "userName email _id")
+        .populate("resverId", "userName email _id").select("-updatedAt -__v -isDeleteSenderId -isDeleteResverId").sort({createdAt : -1  })
     if (allMessage.length === 0) return next(new Error(message.message.notFound));
     return res.status(200).json({ success: true, allMessage });
 }
