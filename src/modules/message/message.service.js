@@ -2,7 +2,7 @@ import Message from "../../model/Message.js";
 import User from "../../model/User.js";
 import { eventClearMessage } from "../../utils/events/clear.message.js";
 import { message } from "../../utils/messages/index.js";
-
+// send messages
 export const putMessage = async (req, res, next) => {
     const { data } = req;
     const { resverId } = req.params;
