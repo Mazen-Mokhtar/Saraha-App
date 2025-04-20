@@ -5,7 +5,7 @@ import { validation } from "../../middleware/validation.middleware.js";
 import * as messageService from "./message.service.js";
 import { asyncHandler } from "../../utils/index.js";
 const router = Router();
-router.put("/:resverId", asyncHandler(authorization), validation(schema.putMessage), asyncHandler(messageService.putMessage))
+router.put("/:resverId",validation(schema.putMessage), asyncHandler(messageService.putMessage))
 router.get("/user-messages", asyncHandler(authorization), validation(schema.userMessages), asyncHandler(messageService.userMessages))
 router.delete("/delete-message/:id", asyncHandler(authorization), validation(schema.deleteMessage), asyncHandler(messageService.deleteMessage))
 router.patch("/update-message/:id", asyncHandler(authorization), validation(schema.updateMessage), asyncHandler(messageService.updateMessage))

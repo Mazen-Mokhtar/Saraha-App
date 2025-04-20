@@ -7,9 +7,9 @@ export const putMessage = async (req, res, next) => {
     const { data } = req;
     const { resverId } = req.params;
     const { content } = req.body;
-    const users = await User.find({ _id: { $in: [data.userId, resverId] } })
-    if (users.length !== 2) return next(new Error(message.user.notFound, { cause: 404 }));
-    const userMessage = await Message.create({ content, senderId: data.userId, resverId });
+    const users = await User.find({ _id: { $in: [data && data.userId, resverId] } })
+    if (data && users.length !== 2) return next(new Error(message.user.notFound, { cause: 404 }));
+    await Message.create({ content, senderId: data && data.userId, resverId });
     return res.status(201).json({ success: true, message: message.message.createdSuccessfully })
 
 }
@@ -18,7 +18,7 @@ export const userMessages = async (req, res, next) => {
     User.schema.set("toJSON", { virtuals: false });
     const allMessage = await Message.find({ $or: [{ senderId: data.userId, isDeleteSenderId: false }, { resverId: data.userId, isDeleteResverId: false }] })
         .populate("senderId", "userName email _id")
-        .populate("resverId", "userName email _id").select("-updatedAt -__v -isDeleteSenderId -isDeleteResverId").sort({createdAt : -1  })
+        .populate("resverId", "userName email _id").select("-updatedAt -__v -isDeleteSenderId -isDeleteResverId").sort({ createdAt: -1 })
     if (allMessage.length === 0) return next(new Error(message.message.notFound));
     return res.status(200).json({ success: true, allMessage });
 }
@@ -92,6 +92,6 @@ export const countUnReadMessage = async (req, res, next) => {
     const { data } = req;
     const user = await User.findById(data.userId);
     if (!user) return next(new Error(message.user.notFound, { cause: 404 }));
-    const cMessages = await Message.countDocuments({resverId : data.userId , isDeleteResverId :false})
-    return res.status(200).json({success : true , count : cMessages})
+    const cMessages = await Message.countDocuments({ resverId: data.userId, isDeleteResverId: false })
+    return res.status(200).json({ success: true, count: cMessages })
 }

@@ -3,7 +3,7 @@ import joi from "joi";
 export const putMessage = joi.object().keys({
     content: joi.string().min(1).required(),
     resverId: joi.string().required(),
-    authorization: joi.string().required()
+    authorization: joi.string()
 
 }).required()
 export const userMessages = joi.object().keys({
