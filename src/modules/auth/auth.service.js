@@ -27,7 +27,7 @@ export const confirmEmailSigup = async (req, res, next) => {
     }
     user.comfirmEmail = true;
     await user.save()
-    return res.status(200).json({ "message": message.user.emailIsActived })
+    return res.redirect('https://saraha-fe.vercel.app/success');
 }
 export const login = async (req, res, next) => {
     const { email, password } = req.body;
